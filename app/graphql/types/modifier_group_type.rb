@@ -1,12 +1,11 @@
 module Types
-  class MenuType < Types::BaseObject
+  class ModifierGroupType < Types::BaseObject
     field :id, ID, null: false
     field :identifier, String, null: true
     field :label, String, null: false
-    field :state, String, null: true
-    field :start_date, GraphQL::Types::ISO8601Date, null: true
-    field :end_date, GraphQL::Types::ISO8601Date, null: true
-    field :sections, [Types::SectionType], null: true
+    field :selection_required_min, Integer, null: false
+    field :selection_required_max, Integer, null: false
+    field :modifiers, [Types::ModifierType], null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   end
