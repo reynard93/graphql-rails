@@ -56,6 +56,10 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "rspec"
+  gem "rspec-rails"
+  gem "rspec-graphql_matchers", '2.0.0-rc.0'
+  gem "faker"
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -68,9 +72,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-gem "rspec-rails", "~> 7.1"
-
-gem "faker", "~> 3.5"
-
-gem "factory_bot_rails", "~> 6.4"
