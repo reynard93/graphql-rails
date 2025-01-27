@@ -79,6 +79,10 @@ Rails.application.configure do
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
+  config.public_file_server.enabled = true
+  config.assets.compile = false
+  config.assets.debug = false
+  config.assets.digest = true
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com
