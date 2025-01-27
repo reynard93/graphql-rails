@@ -1,0 +1,12 @@
+build:
+  docker:
+    web: Dockerfile
+# Remove the run section since we'll use Dockerfile's CMD
+# run:
+#   web: bundle exec rails server -p $PORT -b 0.0.0.0
+
+# setup:
+#   # No need for PostgreSQL addon since we're using SQLite
+#   config:
+#     RAILS_ENV: production
+    # RAILS_LOG_TO_STDOUT: enabled
