@@ -6,6 +6,8 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
+# Prepare database
 ./bin/rails db:prepare
 
+# Let Puma handle the port binding through its config
 exec "$@"
