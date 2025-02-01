@@ -72,3 +72,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+gem 'rack-cors'
+
+gem "vite_rails", "~> 3.0"
+
+gem "rails-static-router", "~> 1.0"

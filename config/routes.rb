@@ -14,3 +14,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 end
+
+if ENV["RAILS_SERVE_STATIC_FILES"].present?
+  get "*path", to: static("index.html")
+  post "*path", to: static("index.html")
+end
