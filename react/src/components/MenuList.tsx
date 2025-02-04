@@ -49,77 +49,66 @@ const MenuList: React.FC<{menu: Menu}> = ({menu}) => {
   };
 
   return (
-    <div className="flex gap-8">
-      <div className="space-y-8">
-        {menu.sections.map((section) => (
-          <div key={section.id}>
-            <Title level={3} className="mb-2">
-              {section.label}
-            </Title>
-            <Text className="block text-gray-600 mb-4">
-              {getSectionDescription(section.label)}
-            </Text>
-            <Row gutter={[16, 16]}>
-              {section.items.map((item) => (
-                <Col key={item.id} xs={24} sm={12} md={8} lg={6}>
-                  <Card
-                    className="h-full cursor-pointer shadow-md"
-                    onClick={() => setSelectedItem(item)}
-                    cover={
-                      <div className="h-48 overflow-hidden">
-                        <img
-                          alt={item.label}
-                          src={`${import.meta.env.BASE_URL}images/${
-                            item.label
-                          }.jpg`}
-                          className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
-                        />
-                      </div>
-                    }
-                  >
-                    <Card.Meta
-                      title={item.label}
-                      description={
-                        <div>
-                          <Text className="text-gray-500 mb-3 line-clamp-3">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Rem tenetur consequuntur eveniet cumque
-                            suscipit ad atque distinctio delectus unde in,
-                            saepe, impedit fuga quasi. Saepe error expedita
-                            omnis dolores ipsum!
-                          </Text>
-                          <div className="flex justify-between items-center mb-2">
-                            <Text className="text-lg font-semibold pr-8">
-                              ${item.price.toFixed(2)}
-                            </Text>
-                            <Button
-                              type="primary"
-                              className="bg-[#ff6b4a] hover:bg-[#ff5a35] !rounded-none flex-1 border-none hover:!bg-[#e85e40]"
-                            >
-                              Add
-                            </Button>
-                          </div>
-                          {item.modifierGroups.length > 0 && (
-                            <Text className="text-gray-600">Customizable</Text>
-                          )}
-                        </div>
-                      }
+    <div className="space-y-8">
+      {menu.sections.map((section) => (
+        <div key={section.id} id={section.id}>
+          <Title level={3} className="mb-2">
+            {section.label}
+          </Title>
+          <Text className="block text-gray-600 mb-4">
+            {getSectionDescription(section.label)}
+          </Text>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+            {section.items.map((item) => (
+              <div 
+                key={item.id}
+                className="flex flex-col shadow-lg overflow-hidden cursor-pointer"
+                onClick={() => setSelectedItem(item)}
+              >
+                <div className="flex-shrink-0">
+                  <div className="relative w-full overflow-hidden" style={{ paddingTop: '100%' }}>
+                    <img
+                      alt={item.label}
+                      src={`${import.meta.env.BASE_URL}images/${item.label}.jpg`}
+                      className="absolute top-0 object-cover w-full h-full transition-transform hover:scale-110"
                     />
-                  </Card>
-                </Col>
-              ))}
-            </Row>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-between flex-1 p-3 sm:p-4.5 bg-white">
+                  <div>
+                    <p className="mb-3 text-base font-medium text-gray-900 line-clamp-2">
+                      {item.label}
+                    </p>
+                    <p className="mt-1 text-sm text-gray-600 line-clamp-3">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit...
+                    </p>
+                  </div>
+                  <div className="mt-3 sm:mt-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between">
+                      <div className="font-bold text-md mb-3 sm:mb-0">
+                        ${item.price.toFixed(2)}
+                      </div>
+                      <div className="w-full sm:w-auto">
+                        <Button
+                          type="primary"
+                          className="w-full sm:w-auto border-none !rounded-none"
+                        >
+                          Add
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-        <AnimatePresence>
-          {selectedItem && (
-            <MenuItemModal
-              item={selectedItem}
-              onClose={() => setSelectedItem(null)}
-            />
-          )}
-        </AnimatePresence>
-    </div>
+        </div>
+      ))}
+      <AnimatePresence>
+        {selectedItem && (
+          <MenuItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
