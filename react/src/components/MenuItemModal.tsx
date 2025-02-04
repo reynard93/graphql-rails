@@ -21,9 +21,10 @@ interface MenuItem {
 interface MenuItemModalProps {
   item: MenuItem;
   onClose: () => void;
+  isAvailable: boolean;
 }
 
-const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose }) => {
+const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailable }) => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose }) => {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 100 }}
-        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white w-4/5 h-4/5 overflow-hidden"
+        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white w-4/5 h-4/5 overflow-hidden`}
       >
         <div className="flex h-full">
           <div className="w-1/2">   
@@ -93,19 +94,40 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose }) => {
 
             <div className="mt-auto bg-gray-200 -mx-4 -mb-8 p-8">
               <div className="flex items-stretch gap-4">
-                <div className="flex items-center bg-white w-1/3 min-h-[48px] border-1">
-                  <button onClick={handleDecrement} className="!text-2xl px-4 h-full cursor-pointer">−</button>
-                  <span className="text-lg font-medium flex-1 text-center">{quantity}</span>
-                  <button onClick={handleIncrement} className="!text-2xl px-4 h-full cursor-pointer">+</button>
-                </div>
-                <Button
-                  type="primary"
-                  size="large"
-                  className="flex-1 !rounded-none min-h-[48px] flex items-center justify-center gap-2"
-                >
-                  <span>Add</span>
-                  <span className="text-white/80">(${item.price.toFixed(2)})</span>
-                </Button>
+                {isAvailable ? (
+                  <>
+                    <div className="flex items-center bg-white w-1/3 min-h-[48px] border-1">
+                      <button 
+                        onClick={handleDecrement} 
+                        className="!text-2xl px-4 h-full cursor-pointer"
+                      >−</button>
+                      <span className="text-lg font-medium flex-1 text-center">{quantity}</span>
+                      <button 
+                        onClick={handleIncrement} 
+                        className="!text-2xl px-4 h-full cursor-pointer"
+                      >+</button>
+                    </div>
+                    <Button
+                      type="primary"
+                      size="large"
+                      className="flex-1 !rounded-none min-h-[48px] flex items-center justify-center gap-2"
+                    >
+                      <span>Add</span>
+                      <span className="text-white/80">(${item.price.toFixed(2)})</span>
+                    </Button>
+                  </>
+                ) : (
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-lg font-bold">${item.price.toFixed(2)}</span>
+                    <Button
+                      type="primary"
+                      size="large"
+                      className="!rounded-none min-h-[48px]"
+                    >
+                      Not Available
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

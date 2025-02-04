@@ -26,6 +26,7 @@ interface Section {
   id: string;
   label: string;
   items: MenuItem[];
+  isAvailable: boolean;
 }
 
 interface Menu {
@@ -51,10 +52,15 @@ const MenuList: React.FC<{menu: Menu}> = ({menu}) => {
   return (
     <div className="space-y-8">
       {menu.sections.map((section) => (
-        <div key={section.id} id={section.id}>
+        <div key={section.id} id={section.id} className={!section.isAvailable ? 'opacity-50' : ''}>
           <Title level={3} className="mb-2">
             {section.label}
           </Title>
+          {!section.isAvailable && (
+              <div className="text-red-500 font-normal text-sm my-4 block">
+                Only available on Fri, Sat and Sun
+              </div>
+            )}
           <Text className="block text-gray-600 mb-4">
             {getSectionDescription(section.label)}
           </Text>
@@ -62,7 +68,7 @@ const MenuList: React.FC<{menu: Menu}> = ({menu}) => {
             {section.items.map((item) => (
               <div 
                 key={item.id}
-                className="flex flex-col shadow-lg overflow-hidden cursor-pointer"
+                className={`flex flex-col shadow-lg overflow-hidden ${!section.isAvailable ? 'opacity-50' : ''}`}
                 onClick={() => setSelectedItem(item)}
               >
                 <div className="flex-shrink-0">
@@ -93,7 +99,7 @@ const MenuList: React.FC<{menu: Menu}> = ({menu}) => {
                           type="primary"
                           className="w-full sm:w-auto border-none !rounded-none"
                         >
-                          Add
+                          { section.isAvailable ? 'Add' : 'Not available' }
                         </Button>
                       </div>
                     </div>
@@ -106,7 +112,13 @@ const MenuList: React.FC<{menu: Menu}> = ({menu}) => {
       ))}
       <AnimatePresence>
         {selectedItem && (
-          <MenuItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+          <MenuItemModal 
+            item={selectedItem} 
+            onClose={() => setSelectedItem(null)} 
+            isAvailable={menu.sections.find(section => 
+              section.items.some(item => item.id === selectedItem.id)
+            )?.isAvailable ?? true}
+          />
         )}
       </AnimatePresence>
     </div>
