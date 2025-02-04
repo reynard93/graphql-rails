@@ -62,9 +62,6 @@ COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails_grain_graphql/rails .
 COPY --from=build /rails_grain_graphql/public ./public
 
-# Install foreman globally in the final stage
-RUN gem install foreman
-
 # Entrypoint prepares the database.
 ENTRYPOINT ["./bin/docker-entrypoint"]
 
