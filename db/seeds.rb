@@ -1,9 +1,27 @@
 # This file should ensure the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+# Create an active menu (current)
 menu = Menu.create!(
   identifier: "sample_menu",
-  label: "Sample Menu"
+  label: "Sample Menu",
+  start_date: Date.current,
+  end_date: Date.current + 7.days
+)
+
+# Create a future menu
+future_menu = Menu.create!(
+  identifier: "future_menu",
+  label: "Future Menu",
+  start_date: Date.current + 14.days,
+  end_date: Date.current + 21.days
+)
+
+past_menu = Menu.create!(
+  identifier: "past_menu",
+  label: "Past Menu",
+  start_date: Date.current - 14.days,
+  end_date: Date.current - 7.days
 )
 
 section1 = Section.create!(
@@ -20,6 +38,9 @@ section2 = Section.create!(
 MenuSection.create!(menu: menu, section: section1, display_order: 1)
 MenuSection.create!(menu: menu, section: section2, display_order: 2)
 
+# Add a random section to past menu
+MenuSection.create!(menu: past_menu, section: [ section1, section2 ].sample, display_order: 1)
+
 # Base items should be Products
 item1 = Product.create!(label: "Burger", price: 10.99)
 item2 = Product.create!(label: "Fries", price: 3.99)
@@ -29,6 +50,9 @@ pizza = Product.create!(label: "Pizza", price: 12.99)
 SectionItem.create!(section: section1, item: item1, display_order: 2)
 SectionItem.create!(section: section1, item: item2, display_order: 1)
 SectionItem.create!(section: section2, item: pizza, display_order: 1)
+
+# Add a random section to future menu
+MenuSection.create!(menu: future_menu, section: [ section1, section2 ].sample, display_order: 1)
 
 # Modifier items should be Components
 small = Component.create!(label: "Small", price: 0.00)
@@ -83,8 +107,8 @@ crust_group.modifiers.create!(item: thick, default_quantity: 0, display_order: 2
 # For toppings, use each_with_index to set display_order
 toppings.each_with_index do |topping, index|
   toppings_group.modifiers.create!(
-    item: topping, 
-    default_quantity: 0, 
+    item: topping,
+    default_quantity: 0,
     display_order: index + 1
   )
 end
