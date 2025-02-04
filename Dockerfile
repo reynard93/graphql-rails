@@ -69,7 +69,7 @@ RUN gem install foreman
 ENTRYPOINT ["./bin/docker-entrypoint"]
 
 # Replace the existing CMD with foreman
-CMD ["foreman", "start", "-f", "Procfile.prod"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
 
 # Port will be set by environment variable
 EXPOSE 3000
