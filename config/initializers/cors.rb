@@ -1,9 +1,10 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins '*'
-    resource '*',
+    resource '/graphql',
       headers: :any,
-      methods: %i[get post put delete options patch],
-      expose: %w[Authorization]
+      methods: [:post, :options],
+      expose: ['Access-Control-Allow-Origin'],
+      max_age: 600
   end
 end

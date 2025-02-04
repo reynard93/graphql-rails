@@ -7,9 +7,15 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: '/',
   build: { 
+    target: 'esnext',
     emptyOutDir: true,
     outDir: '../public',
-    sourcemap: false 
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
   },
 });

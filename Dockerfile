@@ -16,17 +16,18 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 nodejs npm && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Copy package.json first for better caching
-COPY package.json package-lock.json ./
+# Copy application code
+COPY . /rails_grain_graphql
+
+# Work from project directory
+WORKDIR /rails_grain_graphql
+
+# Run npm commands
 RUN npm install
 RUN npm run build
 
-# wonder if the built public file would be registerd by rails???
-
-# Rails app lives here
-WORKDIR /rails
-
-# Set production environment
+# Switch to rails directory
+WORKDIR /rails_grain_graphql/rails
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
@@ -47,37 +48,28 @@ RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
-# Copy application code
-COPY . .
-
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-# is precompiling assets still necessary? i required this for graphiql
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
+# Copy application code
+COPY . .
 
 # Final stage for app image
 FROM base
 
 # Copy built artifacts: gems, application
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
-
-# Run and own only the runtime files as a non-root user for security
-RUN groupadd --system --gid 1000 rails && \
-    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
-USER 1000:1000
-
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+COPY --from=build /rails_grain_graphql/rails .
+COPY --from=build /rails_grain_graphql/public ./public
 
 # Install foreman globally in the final stage
 RUN gem install foreman
 
+# Entrypoint prepares the database.
+ENTRYPOINT ["./bin/docker-entrypoint"]
+
 # Replace the existing CMD with foreman
-CMD ["foreman", "start"]
+CMD ["foreman", "start", "-f", "Procfile.prod"]
 
 # Port will be set by environment variable
 EXPOSE 3000

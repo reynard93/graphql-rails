@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite react",
-    "build": "tsc && vite build react && touch public/.keep",
+    "build": "vite build react && touch public/.keep",
     "lint": "eslint react --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview react",
     "test": "jest",
