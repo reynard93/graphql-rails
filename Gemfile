@@ -40,7 +40,6 @@ gem "thruster", require: false
 
 gem "graphql"
 
-gem "graphiql-rails"
 gem "sprockets-rails" # required for graphiql-rails
 
 group :development, :test do
