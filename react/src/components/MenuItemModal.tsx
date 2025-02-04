@@ -39,6 +39,8 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose }) => {
   return (
     <>
       <motion.div
+        data-testid="modal-overlay"
+
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.5 }}
         exit={{ opacity: 0 }}
@@ -52,9 +54,9 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose }) => {
         className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white w-4/5 h-4/5 overflow-hidden"
       >
         <div className="flex h-full">
-          <div className="w-1/2">
+          <div className="w-1/2">   
             <img
-              src={`${import.meta.env.BASE_URL}images/${item.label}.jpg`}
+              src={`images/${item.label}.jpg`}
               alt={item.label}
               className="w-full h-full object-cover"
             />
