@@ -1,10 +1,13 @@
-import { useQuery, gql } from '@apollo/client';
-import { Card, Col, Row, Spin } from 'antd';
+import { useQuery, gql } from "@apollo/client";
+import { Card, Col, Row, Spin, Typography } from "antd";
+
+const { Title, Text } = Typography;
 
 interface MenuItem {
   id: string;
   label: string;
   price: number;
+  image?: string;
 }
 
 interface Section {
@@ -40,7 +43,10 @@ const GET_MENU = gql`
 const MenuList: React.FC = () => {
   const { loading, error, data } = useQuery<{ menu: Menu }>(GET_MENU);
 
-  if (loading) return <Spin size="large" className="flex justify-center items-center h-64" />;
+  if (loading)
+    return (
+      <Spin size="large" className="flex justify-center items-center h-64" />
+    );
   if (error) return <p>Error: {error.message}</p>;
   if (!data?.menu) return <p>No menu data found</p>;
 
@@ -48,16 +54,33 @@ const MenuList: React.FC = () => {
     <div className="space-y-8">
       {data.menu.sections.map((section) => (
         <div key={section.id}>
-          <h2 className="text-2xl font-bold mb-4">{section.label}</h2>
           <Row gutter={[16, 16]}>
             {section.items.map((item) => (
               <Col key={item.id} xs={24} sm={12} md={8} lg={6}>
                 <Card
                   hoverable
                   className="h-full"
-                  title={item.label}
+                  cover={
+                    <img
+                      alt={item.label}
+                      src={`${import.meta.env.BASE_URL}images/${
+                        item.label
+                      }.jpg`}
+                      className="h-48 object-cover w-full"
+                    />
+                  }
                 >
-                  <p className="text-lg font-semibold">${item.price.toFixed(2)}</p>
+                  <Card.Meta
+                    title={item.label}
+                    description={
+                        <div className="mt-2">
+                          <Text type="secondary">Customizable</Text>
+                        </div>
+                    }
+                  />
+                  <p className="text-lg font-semibold">
+                    ${item.price.toFixed(2)}
+                  </p>
                 </Card>
               </Col>
             ))}
