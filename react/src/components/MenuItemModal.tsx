@@ -40,7 +40,6 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose }) => {
     <>
       <motion.div
         data-testid="modal-overlay"
-
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.5 }}
         exit={{ opacity: 0 }}
