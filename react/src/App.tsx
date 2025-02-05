@@ -152,10 +152,10 @@ const App: React.FC = () => {
   return (
     <Content className="p-8">
       <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row gap-8">
-        <div className="md:w-64 md:flex-shrink-0">
-          <div className="md:fixed md:w-64">
+        <div className="fixed bottom-0 left-0 right-0 bg-white z-10 md:static md:w-64 md:flex-shrink-0">
+          <div className="md:fixed md:w-56">
             <Anchor
-              className="md:p-4 md:w-64"
+              className="md:p-4 md:w-56"
               direction={isMobile ? 'horizontal' : 'vertical'}
               targetOffset={100}
               items={menuWithStubSection.sections.map((section) => ({
@@ -166,7 +166,7 @@ const App: React.FC = () => {
             />
           </div>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 pb-16 md:pb-0">
           <MenuList menu={menuWithStubSection} />
         </div>
       </div>
