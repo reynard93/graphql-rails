@@ -2,10 +2,10 @@
   font-size: 16px;
 }
 
-.ant-anchor-link-active > .ant-anchor-link-title {
-  color: #ff6b4a !important;
+.ant-anchor-link {
+  padding: 8px 4px !important;
 }
 
-.ant-anchor-ink-ball {
-  border-color: #ff6b4a !important;
+.ant-anchor-link.ant-anchor-link-active > .ant-anchor-link-title {
+  color: currentColor !important;
 }

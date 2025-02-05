@@ -16,14 +16,16 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ sections }) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
+        const visibleSections = entries.filter(entry => entry.isIntersecting);
+        if (visibleSections.length > 0) {
+          // Get the first visible section
+          setActiveSection(visibleSections[0].target.id);
+        }
       },
       {
-        threshold: 0.5,
+        root: null, // viewport
+        rootMargin: '-20% 0px -70% 0px', // Adjust the detection area
+        threshold: 0.1 // Trigger when even 10% is visible
       }
     );
 
@@ -37,8 +39,7 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ sections }) => {
 
   return (
     <Anchor
-      className="p-4 w-64 sticky"
-      affix={false}
+      className="p-4 w-64"
       getCurrentAnchor={() => `#${activeSection}`}
       items={sections.map((section) => ({
         key: section.id,
