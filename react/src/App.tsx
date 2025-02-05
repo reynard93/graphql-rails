@@ -85,6 +85,32 @@ const App: React.FC = () => {
     sections: [
       ...data.menu.sections.map(section => ({...section, isAvailable: true})),
       {
+        id: 'stub-section-2',
+        label: 'Popular Items',
+        isAvailable: true,
+        items: [
+          {
+            id: 'stub-1',
+            label: 'Burger',
+            price: 15.99,
+            modifierGroups: [],
+            isSoldOut: true
+          },
+          {
+            id: 'stub-2',
+            label: 'Pizza',
+            price: 24.99,
+            modifierGroups: [],
+          },
+          {
+            id: 'stub-3',
+            label: 'Fries',
+            price: 18.99,
+            modifierGroups: [],
+          }
+        ],
+      },
+      {
         id: 'stub-section',
         label: 'Featured Items',
         items: [
@@ -108,7 +134,7 @@ const App: React.FC = () => {
           }
         ],
         isAvailable: false
-      },
+      }
     ]
   };
 
