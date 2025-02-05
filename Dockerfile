@@ -11,16 +11,20 @@
 ARG RUBY_VERSION=3.3.6
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
-# Rails app lives here
-WORKDIR /rails
-
 # Install base packages
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 nodejs npm && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+# Copy package.json first for better caching
+COPY package.json package-lock.json ./
 RUN npm install
 RUN npm run build
+
+# wonder if the built public file would be registerd by rails???
+
+# Rails app lives here
+WORKDIR /rails
 
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -50,6 +54,7 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+# is precompiling assets still necessary? i required this for graphiql
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 # Final stage for app image
