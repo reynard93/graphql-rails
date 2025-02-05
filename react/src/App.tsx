@@ -1,12 +1,11 @@
-import React from 'react'
+import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import MenuList from './components/MenuList.tsx'
-import MenuSidebar from './components/MenuSidebar.tsx'
+import MenuList from "./components/MenuList.tsx";
 
-import { Layout, Spin } from 'antd'
-import 'antd/dist/reset.css'
+import { Layout, Spin, Anchor } from "antd";
+import "antd/dist/reset.css";
 
-const { Content } = Layout
+const { Content } = Layout;
 
 const GET_MENU = gql`
   query GetMenu {
@@ -70,26 +69,37 @@ interface Menu {
 const App: React.FC = () => {
   const { loading, error, data } = useQuery<{ menu: Menu }>(GET_MENU);
 
-  if (loading) return <Spin size="large" className="flex justify-center items-center h-screen" />;
+  if (loading)
+    return (
+      <Spin
+        size="large"
+        className="flex justify-center items-center h-screen"
+      />
+    );
   if (error) return <p>Error: {error.message}</p>;
   if (!data?.menu) return <p>No menu data found</p>;
 
   return (
-    <Layout className="min-h-screen">
-      <Content className="p-8">
-        <div className="max-w-[1600px] mx-auto flex gap-8">
-          <div className="w-64 flex-shrink-0">
-            <div className="fixed w-64">
-              <MenuSidebar sections={data.menu.sections} />
-            </div>
-          </div>
-          <div className="flex-1">
-            <MenuList menu={data.menu} />
+    <Content className="p-8">
+      <div className="max-w-[1600px] mx-auto flex gap-8">
+        <div className="w-64 flex-shrink-0">
+          <div className="fixed w-64">
+            <Anchor
+              className="p-4 w-64"
+              items={data.menu.sections.map((section) => ({
+                key: section.id,
+                href: `#${section.id}`,
+                title: section.label,
+              }))}
+            />
           </div>
         </div>
-      </Content>
-    </Layout>
-  )
-}
+        <div className="flex-1">
+          <MenuList menu={data.menu} />
+        </div>
+      </div>
+    </Content>
+  );
+};
 
-export default App
+export default App;
