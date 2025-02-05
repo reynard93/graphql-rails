@@ -8,10 +8,16 @@ RSpec.describe Types::MenuType do
       identifier: "lunch_menu"
     )
   }
-  let!(:sections) { create_list(:section, 3, menu: menu) }
+  # Each test will set up its own sections to avoid test interference
 
   describe 'resolvers' do
     it 'returns the correct values for a menu' do
+      # Create test sections for this specific test
+      3.times do |i|
+        section = create(:section, label: "Test Section #{i}")
+        create(:menu_section, menu: menu, section: section, display_order: i)
+      end
+
       query_string = <<-GRAPHQL
         query($id: ID!) {
           menu(id: $id) {
@@ -68,6 +74,41 @@ RSpec.describe Types::MenuType do
       )
 
       expect(result["data"]["menu"]["sections"]).to eq([])
+    end
+  end
+
+  describe 'section ordering' do
+    it 'returns sections in the correct display order' do
+      # Create sections with specific display orders
+      3.times.map do |i|
+        section = create(:section, label: "Section #{i + 1}")
+        # Create menu sections with ascending order
+        create(:menu_section, menu: menu, section: section, display_order: i + 1)
+        section
+      end
+
+      query_string = <<-GRAPHQL
+        query($id: ID!) {
+          menu(id: $id) {
+            sections {
+              id
+              label
+            }
+          }
+        }
+      GRAPHQL
+
+      result = RailsGrainGraphqlSchema.execute(
+        query_string,
+        variables: { id: menu.id.to_s },
+        context: {}
+      )
+
+      sections_data = result["data"]["menu"]["sections"]
+      # Verify sections are returned in ascending display_order
+      sections_data.each_with_index do |section_data, index|
+        expect(section_data["label"]).to eq("Section #{index + 1}")
+      end
     end
   end
 end
