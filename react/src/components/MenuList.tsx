@@ -173,23 +173,23 @@ const MenuList: React.FC = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="w-1/2 p-8 flex flex-col h-full">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h2 className="text-2xl font-bold mb-2">{selectedItem.label}</h2>
-                      <p className="text-gray-600">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem tenetur consequuntur eveniet cumque suscipit ad atque distinctio delectus unde in, saepe, impedit fuga quasi. Saepe error expedita omnis dolores ipsum!
-                      </p>
-                    </div>
+                <div className="w-1/2 p-4 flex flex-col h-full">
+                  <div className="flex justify-end mb-4">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedItem(null);
                       }}
-                      className="cursor-pointer !text-l font-bold"
+                      className="cursor-pointer !text-xl hover:text-gray-700"
                     >
                       ✕
                     </button>
+                  </div>
+                  <div className="mb-4">
+                    <h2 className="text-2xl font-bold mb-2">{selectedItem.label}</h2>
+                    <p className="text-gray-600">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus excepturi, tempora quae maiores cum reprehenderit molestiae voluptatem exercitationem. Dolor sequi ducimus quae impedit pariatur sunt ipsum animi porro voluptatum ullam?
+                    </p>
                   </div>
                   
                   {selectedItem.modifierGroups.length > 0 && (
