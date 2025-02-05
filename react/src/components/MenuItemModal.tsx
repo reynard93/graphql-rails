@@ -101,7 +101,7 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose }) => {
                 <Button
                   type="primary"
                   size="large"
-                  className="bg-[#ff6b4a] hover:bg-[#ff5a35] border-none hover:!bg-[#e85e40] flex-1 !rounded-none min-h-[48px] flex items-center justify-center gap-2"
+                  className="flex-1 !rounded-none min-h-[48px] flex items-center justify-center gap-2"
                 >
                   <span>Add</span>
                   <span className="text-white/80">(${item.price.toFixed(2)})</span>
