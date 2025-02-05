@@ -26,3 +26,4 @@ dist-ssr
 tmp
 storage
 .codyarchitect
+config/master.key

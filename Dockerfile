@@ -16,13 +16,17 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 nodejs npm && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+RUN npm install
+RUN npm run build
 
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
+    RAILS_SERVE_STATIC_FILES="1" \
     BUNDLE_WITHOUT="development"
 
 # Throw-away build stage to reduce size of final image
@@ -64,8 +68,11 @@ USER 1000:1000
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Start server without hardcoded port
-CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
+# Install foreman globally in the final stage
+RUN gem install foreman
+
+# Replace the existing CMD with foreman
+CMD ["foreman", "start"]
 
 # Port will be set by environment variable
 EXPOSE 3000
