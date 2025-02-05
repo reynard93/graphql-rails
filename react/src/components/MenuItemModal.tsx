@@ -46,7 +46,7 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailabl
         animate={{ opacity: 0.5 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="fixed inset-0 bg-black/90 z-40 min-h-screen min-w-full"
+        className="fixed inset-0 bg-black/90 z-40"
       />
       <motion.div
         initial={{ opacity: 0, y: 100 }}

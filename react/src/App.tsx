@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import MenuList from "./components/MenuList.tsx";
+import MenuList from "./components/MenuList";
 
 import { Layout, Spin, Anchor } from "antd";
 import "antd/dist/reset.css";

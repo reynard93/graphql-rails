@@ -12,9 +12,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-end
+  # Set root path to serve the Vite frontend
+  root "vite#index"
 
-if ENV["RAILS_SERVE_STATIC_FILES"].present?
-  get "*path", to: static("index.html")
-  post "*path", to: static("index.html")
+  # Serve static files if enabled
+  if ENV["RAILS_SERVE_STATIC_FILES"].present?
+    get "*path", to: "vite#index", constraints: ->(req) { !req.xhr? && req.format.html? }
+    post "*path", to: "vite#index", constraints: ->(req) { !req.xhr? && req.format.html? }
+  end
 end
