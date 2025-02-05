@@ -11,6 +11,7 @@ interface MenuItem {
   label: string;
   price: number;
   image?: string;
+  isSoldOut?: boolean;
   modifierGroups: {
     id: string;
     label: string;
@@ -34,6 +35,12 @@ interface Menu {
   label: string;
   sections: Section[];
 }
+
+const getButtonText = (sectionAvailable: boolean, itemSoldOut: boolean | undefined): string => {
+  if (!sectionAvailable) return 'Not available';
+  if (itemSoldOut) return 'Sold out';
+  return 'Add';
+};
 
 const MenuList: React.FC<{menu: Menu}> = ({menu}) => {
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
@@ -97,9 +104,9 @@ const MenuList: React.FC<{menu: Menu}> = ({menu}) => {
                       <div className="w-full sm:w-auto">
                         <Button
                           type="primary"
-                          className="w-full sm:w-auto border-none !rounded-none"
+                          className={`w-full sm:w-auto border-none !rounded-none ${(!section.isAvailable || item.isSoldOut) ? 'opacity-50' : ''}`}
                         >
-                          { section.isAvailable ? 'Add' : 'Not available' }
+                          {getButtonText(section.isAvailable, item.isSoldOut)}
                         </Button>
                       </div>
                     </div>

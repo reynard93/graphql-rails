@@ -7,6 +7,7 @@ interface MenuItem {
   label: string;
   price: number;
   image?: string;
+  isSoldOut?: boolean;
   modifierGroups: {
     id: string;
     label: string;
@@ -98,11 +99,13 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailabl
                   <>
                     <div className="flex items-center bg-white w-1/3 min-h-[48px] border-1">
                       <button 
+                        disabled={item?.isSoldOut}
                         onClick={handleDecrement} 
                         className="!text-2xl px-4 h-full cursor-pointer"
                       >−</button>
                       <span className="text-lg font-medium flex-1 text-center">{quantity}</span>
                       <button 
+                        disabled={item?.isSoldOut}
                         onClick={handleIncrement} 
                         className="!text-2xl px-4 h-full cursor-pointer"
                       >+</button>
@@ -110,6 +113,7 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailabl
                     <Button
                       type="primary"
                       size="large"
+                      disabled={item?.isSoldOut}
                       className="flex-1 !rounded-none min-h-[48px] flex items-center justify-center gap-2"
                     >
                       <span>Add</span>
