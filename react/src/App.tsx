@@ -58,6 +58,7 @@ interface Section {
   id: string;
   label: string;
   items: MenuItem[];
+  isAvailable: boolean;
 }
 
 interface Menu {
@@ -79,6 +80,38 @@ const App: React.FC = () => {
   if (error) return <p>Error: {error.message}</p>;
   if (!data?.menu) return <p>No menu data found</p>;
 
+  const menuWithStubSection = {
+    ...data.menu,
+    sections: [
+      {
+        id: 'stub-section',
+        label: 'Featured Items',
+        items: [
+          {
+            id: 'featured-1',
+            label: 'Burger',
+            price: 15.99,
+            modifierGroups: []
+          },
+          {
+            id: 'featured-2',
+            label: 'Pizza',
+            price: 24.99,
+            modifierGroups: []
+          },
+          {
+            id: 'featured-3',
+            label: 'Fries',
+            price: 18.99,
+            modifierGroups: []
+          }
+        ],
+        isAvailable: false
+      },
+      ...data.menu.sections.map(section => ({...section, isAvailable: true}))
+    ]
+  };
+
   return (
     <Content className="p-8">
       <div className="max-w-[1600px] mx-auto flex gap-8">
@@ -86,7 +119,8 @@ const App: React.FC = () => {
           <div className="fixed w-64">
             <Anchor
               className="p-4 w-64"
-              items={data.menu.sections.map((section) => ({
+              targetOffset={100}
+              items={menuWithStubSection.sections.map((section) => ({
                 key: section.id,
                 href: `#${section.id}`,
                 title: section.label,
@@ -95,7 +129,7 @@ const App: React.FC = () => {
           </div>
         </div>
         <div className="flex-1">
-          <MenuList menu={data.menu} />
+          <MenuList menu={menuWithStubSection} />
         </div>
       </div>
     </Content>
