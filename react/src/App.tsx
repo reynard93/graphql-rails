@@ -83,6 +83,7 @@ const App: React.FC = () => {
   const menuWithStubSection = {
     ...data.menu,
     sections: [
+      ...data.menu.sections.map(section => ({...section, isAvailable: true})),
       {
         id: 'stub-section',
         label: 'Featured Items',
@@ -108,7 +109,6 @@ const App: React.FC = () => {
         ],
         isAvailable: false
       },
-      ...data.menu.sections.map(section => ({...section, isAvailable: true}))
     ]
   };
 
