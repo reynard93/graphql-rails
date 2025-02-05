@@ -1,15 +1,92 @@
 import React from 'react'
+import { useQuery, gql } from "@apollo/client";
 import MenuList from './components/MenuList.tsx'
-import { Layout } from 'antd'
+import MenuSidebar from './components/MenuSidebar.tsx'
+
+import { Layout, Spin } from 'antd'
 import 'antd/dist/reset.css'
 
 const { Content } = Layout
 
+const GET_MENU = gql`
+  query GetMenu {
+    menu(id: 1) {
+      id
+      label
+      sections {
+        id
+        label
+        items {
+          id
+          label
+          price
+          modifierGroups {
+            label
+            selectionRequiredMin
+            selectionRequiredMax
+            modifiers {
+              item {
+                label
+                price
+              }
+              defaultQuantity
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// TODO: remove dupe types here
+interface MenuItem {
+  id: string;
+  label: string;
+  price: number;
+  image?: string;
+  modifierGroups: {
+    id: string;
+    label: string;
+    items: {
+      id: string;
+      label: string;
+      price: number;
+    }[];
+  }[];
+}
+
+interface Section {
+  id: string;
+  label: string;
+  items: MenuItem[];
+}
+
+interface Menu {
+  id: string;
+  label: string;
+  sections: Section[];
+}
+
 const App: React.FC = () => {
+  const { loading, error, data } = useQuery<{ menu: Menu }>(GET_MENU);
+
+  if (loading) return <Spin size="large" className="flex justify-center items-center h-screen" />;
+  if (error) return <p>Error: {error.message}</p>;
+  if (!data?.menu) return <p>No menu data found</p>;
+
   return (
     <Layout className="min-h-screen">
-      <Content className="p-8 max-w-7xl mx-auto w-full">
-        <MenuList />
+      <Content className="p-8">
+        <div className="max-w-[1600px] mx-auto flex gap-8">
+          <div className="w-64 flex-shrink-0">
+            <div className="fixed w-64">
+              <MenuSidebar sections={data.menu.sections} />
+            </div>
+          </div>
+          <div className="flex-1">
+            <MenuList menu={data.menu} />
+          </div>
+        </div>
       </Content>
     </Layout>
   )
