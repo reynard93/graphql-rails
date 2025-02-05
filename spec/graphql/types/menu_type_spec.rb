@@ -15,7 +15,7 @@ RSpec.describe Types::MenuType do
       # Create test sections for this specific test
       3.times do |i|
         section = create(:section, label: "Test Section #{i}")
-        create(:menu_section, menu: menu, section: section, display_order: i)
+        create(:menu_section, menu: menu, section: section, display_order: i + 1)
       end
 
       query_string = <<-GRAPHQL
