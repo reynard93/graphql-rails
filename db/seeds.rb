@@ -38,7 +38,7 @@ section2 = Section.create!(
 MenuSection.create!(menu: menu, section: section1, display_order: 1)
 MenuSection.create!(menu: menu, section: section2, display_order: 2)
 
-# Add a random section to past menu
+# Add a random section to past menu do more with it realised that it should be the section unavailable
 MenuSection.create!(menu: past_menu, section: [ section1, section2 ].sample, display_order: 1)
 
 # Base items should be Products
@@ -51,7 +51,8 @@ SectionItem.create!(section: section1, item: item1, display_order: 2)
 SectionItem.create!(section: section1, item: item2, display_order: 1)
 SectionItem.create!(section: section2, item: pizza, display_order: 1)
 
-# Add a random section to future menu
+# Add a random section to future menu won't do more with it realised that it should be the section unavailable
+# but seems sensible use case for ui displaying or not specific menus IMO (KIV)
 MenuSection.create!(menu: future_menu, section: [ section1, section2 ].sample, display_order: 1)
 
 # Modifier items should be Components
