@@ -6,7 +6,7 @@ import './styles/tailwind.css'
 import App from './App'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: '/graphql',
   cache: new InMemoryCache(),
 })
 
