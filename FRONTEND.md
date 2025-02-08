@@ -7,10 +7,12 @@
 graph TD
     A[App] --> B[MenuList]
     A --> C[MenuItemModal]
-    B --> D[MenuItem]
+    B --> D[Section]
+    D --> E[MenuItem]
     style A fill:#f9f,stroke:#333
     style B fill:#bbf,stroke:#333
     style C fill:#bbf,stroke:#333
+    style D fill:#bbf,stroke:#333
 ```
 
 ```mermaid

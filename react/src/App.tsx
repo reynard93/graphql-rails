@@ -1,10 +1,10 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import MenuList from "./components/MenuList";
-
 import { ConfigProvider, Layout, Spin, Anchor } from "antd";
 import { theme } from "./styles/theme";
 import "antd/dist/reset.css";
+import { Menu } from "./types/menu";
 
 const { Content } = Layout;
 
@@ -37,36 +37,6 @@ const GET_MENU = gql`
     }
   }
 `;
-
-// TODO: remove dupe types here
-interface MenuItem {
-  id: string;
-  label: string;
-  price: number;
-  image?: string;
-  modifierGroups: {
-    id: string;
-    label: string;
-    items: {
-      id: string;
-      label: string;
-      price: number;
-    }[];
-  }[];
-}
-
-interface Section {
-  id: string;
-  label: string;
-  items: MenuItem[];
-  isAvailable: boolean;
-}
-
-interface Menu {
-  id: string;
-  label: string;
-  sections: Section[];
-}
 
 const App: React.FC = () => {
   const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
@@ -153,7 +123,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <ConfigProvider
+  <ConfigProvider
       theme={{
         token: {
           colorPrimary: theme.colors.primary,
