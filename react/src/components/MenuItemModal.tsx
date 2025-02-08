@@ -9,7 +9,7 @@ interface MenuItemModalProps {
   isAvailable: boolean;
 }
 
-const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailable }) => {
+const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailable = true }) => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
