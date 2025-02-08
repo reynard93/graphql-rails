@@ -1,23 +1,7 @@
 import { Button } from "antd";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-
-interface MenuItem {
-  id: string;
-  label: string;
-  price: number;
-  image?: string;
-  isSoldOut?: boolean;
-  modifierGroups: {
-    id: string;
-    label: string;
-    items: {
-      id: string;
-      label: string;
-      price: number;
-    }[];
-  }[];
-}
+import { MenuItem } from "../types/menu";
 
 interface MenuItemModalProps {
   item: MenuItem;

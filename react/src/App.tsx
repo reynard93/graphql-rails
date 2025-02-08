@@ -3,7 +3,7 @@ import { useQuery, gql } from "@apollo/client";
 import MenuList from "./components/MenuList";
 
 import { ConfigProvider, Layout, Spin, Anchor } from "antd";
-import { theme } from './styles/theme'
+import { theme } from "./styles/theme";
 import "antd/dist/reset.css";
 
 const { Content } = Layout;
@@ -76,18 +76,17 @@ const App: React.FC = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const { loading, error, data } = useQuery<{ menu: Menu }>(GET_MENU);
 
   if (loading)
     return (
-      <Spin
-        size="large"
-        className="flex justify-center items-center h-screen"
-      />
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
     );
   if (error) return <p>Error: {error.message}</p>;
   if (!data?.menu) return <p>No menu data found</p>;
@@ -95,59 +94,62 @@ const App: React.FC = () => {
   const menuWithStubSection = {
     ...data.menu,
     sections: [
-      ...data.menu.sections.map(section => ({...section, isAvailable: true})),
+      ...data.menu.sections.map((section) => ({
+        ...section,
+        isAvailable: true,
+      })),
       {
-        id: 'stub-section-2',
-        label: 'Popular Items',
+        id: "stub-section-2",
+        label: "Popular Items",
         isAvailable: true,
         items: [
           {
-            id: 'stub-1',
-            label: 'Burger',
+            id: "stub-1",
+            label: "Burger",
             price: 15.99,
             modifierGroups: [],
-            isSoldOut: true
+            isSoldOut: true,
           },
           {
-            id: 'stub-2',
-            label: 'Pizza',
+            id: "stub-2",
+            label: "Pizza",
             price: 24.99,
             modifierGroups: [],
           },
           {
-            id: 'stub-3',
-            label: 'Fries',
+            id: "stub-3",
+            label: "Fries",
             price: 18.99,
             modifierGroups: [],
-          }
+          },
         ],
       },
       {
-        id: 'stub-section',
-        label: 'Featured Items',
+        id: "stub-section",
+        label: "Featured Items",
         items: [
           {
-            id: 'featured-1',
-            label: 'Burger',
+            id: "featured-1",
+            label: "Burger",
             price: 15.99,
-            modifierGroups: []
+            modifierGroups: [],
           },
           {
-            id: 'featured-2',
-            label: 'Pizza',
+            id: "featured-2",
+            label: "Pizza",
             price: 24.99,
-            modifierGroups: []
+            modifierGroups: [],
           },
           {
-            id: 'featured-3',
-            label: 'Fries',
+            id: "featured-3",
+            label: "Fries",
             price: 18.99,
-            modifierGroups: []
-          }
+            modifierGroups: [],
+          },
         ],
-        isAvailable: false
-      }
-    ]
+        isAvailable: false,
+      },
+    ],
   };
 
   return (
@@ -161,8 +163,8 @@ const App: React.FC = () => {
           Button: {
             colorPrimary: theme.colors.button.primary,
             colorPrimaryHover: theme.colors.button.hover,
-          }
-        }
+          },
+        },
       }}
     >
       <Content className="p-8">
@@ -171,7 +173,7 @@ const App: React.FC = () => {
             <div className="md:fixed md:w-56">
               <Anchor
                 className="md:p-4 md:w-56"
-                direction={isMobile ? 'horizontal' : 'vertical'}
+                direction={isMobile ? "horizontal" : "vertical"}
                 targetOffset={100}
                 items={menuWithStubSection.sections.map((section) => ({
                   key: section.id,

@@ -2,39 +2,9 @@ import { Typography, Button } from "antd";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import MenuItemModal from "./MenuItemModal";
+import { Menu, MenuItem } from "../types/menu";
 
 const { Title, Text } = Typography;
-
-// TODO, move the types to a separate file
-interface MenuItem {
-  id: string;
-  label: string;
-  price: number;
-  image?: string;
-  isSoldOut?: boolean;
-  modifierGroups: {
-    id: string;
-    label: string;
-    items: {
-      id: string;
-      label: string;
-      price: number;
-    }[];
-  }[];
-}
-
-interface Section {
-  id: string;
-  label: string;
-  items: MenuItem[];
-  isAvailable: boolean;
-}
-
-interface Menu {
-  id: string;
-  label: string;
-  sections: Section[];
-}
 
 const getButtonText = (sectionAvailable: boolean, itemSoldOut: boolean | undefined): string => {
   if (!sectionAvailable) return 'Not available';
