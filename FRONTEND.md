@@ -60,6 +60,11 @@ sequenceDiagram
 ## Future Improvements
 - Implement proper image CDN
 - Add error boundary components
-- Enhance loading states
 - Implement proper caching strategy 
 - Handles image loading and fallbacks
+  - lazily load images
+  - fallback images
+  - loading spinner for images
+- Add accessibility features
+  - lighthouse highlighted color contrast
+  - add aria-labels
