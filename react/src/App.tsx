@@ -2,7 +2,8 @@ import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import MenuList from "./components/MenuList";
 
-import { Layout, Spin, Anchor } from "antd";
+import { ConfigProvider, Layout, Spin, Anchor } from "antd";
+import { theme } from './styles/theme'
 import "antd/dist/reset.css";
 
 const { Content } = Layout;
@@ -150,27 +151,42 @@ const App: React.FC = () => {
   };
 
   return (
-    <Content className="p-8">
-      <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row gap-8">
-        <div className="fixed bottom-0 left-0 right-0 bg-white z-10 md:static md:w-64 md:flex-shrink-0">
-          <div className="md:fixed md:w-56">
-            <Anchor
-              className="md:p-4 md:w-56"
-              direction={isMobile ? 'horizontal' : 'vertical'}
-              targetOffset={100}
-              items={menuWithStubSection.sections.map((section) => ({
-                key: section.id,
-                href: `#${section.id}`,
-                title: section.label,
-              }))}
-            />
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: theme.colors.primary,
+          fontFamily: theme.fonts.primary,
+        },
+        components: {
+          Button: {
+            colorPrimary: theme.colors.button.primary,
+            colorPrimaryHover: theme.colors.button.hover,
+          }
+        }
+      }}
+    >
+      <Content className="p-8">
+        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row gap-8">
+          <div className="fixed bottom-0 left-0 right-0 bg-white z-10 md:static md:w-64 md:flex-shrink-0">
+            <div className="md:fixed md:w-56">
+              <Anchor
+                className="md:p-4 md:w-56"
+                direction={isMobile ? 'horizontal' : 'vertical'}
+                targetOffset={100}
+                items={menuWithStubSection.sections.map((section) => ({
+                  key: section.id,
+                  href: `#${section.id}`,
+                  title: section.label,
+                }))}
+              />
+            </div>
+          </div>
+          <div className="flex-1 pb-16 md:pb-0">
+            <MenuList menu={menuWithStubSection} />
           </div>
         </div>
-        <div className="flex-1 pb-16 md:pb-0">
-          <MenuList menu={menuWithStubSection} />
-        </div>
-      </div>
-    </Content>
+      </Content>
+    </ConfigProvider>
   );
 };
 
