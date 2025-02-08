@@ -21,7 +21,7 @@ export const theme = {
     }
   },
   fonts: {
-    primary: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Aptos, Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+    primary: 'ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace',
   }
 };
 

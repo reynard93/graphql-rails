@@ -97,8 +97,8 @@ const MenuList: React.FC<{menu: Menu}> = ({menu}) => {
                     </p>
                   </div>
                   <div className="mt-3 sm:mt-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between">
-                      <div className="font-bold text-md mb-3 sm:mb-0">
+                    <div className="flex flex-col items-stretch sm:items-center justify-between justify-items-stretch sm:flex-row">
+                      <div className="space-x-1 font-medium sm:w-auto text-md text-default w-full mb-3 sm:mb-0">
                         ${item.price.toFixed(2)}
                       </div>
                       <div className="w-full sm:w-auto">

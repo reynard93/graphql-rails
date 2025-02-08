@@ -46,24 +46,39 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailabl
         animate={{ opacity: 0.5 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="fixed inset-0 bg-black/90 z-40"
+        className="fixed inset-0 w-screen h-screen bg-black/90 z-40"
       />
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 100 }}
-        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white w-4/5 h-4/5 overflow-hidden`}
+        className="fixed z-50 bg-white
+          w-full h-full
+          inset-0
+          lg:w-4/5 lg:h-4/5 lg:inset-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2
+          md:w-[90%] md:h-[90%] md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2
+          sm:w-[95%] sm:h-[95%] sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2
+          overflow-y-auto"
       >
-        <div className="flex h-full">
-          <div className="w-1/2">   
+        <div className="flex flex-col md:flex-row h-full">
+          <div className="relative w-full md:w-1/2 h-[30vh] md:h-full sticky top-0">   
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
+              className="absolute top-4 right-4 z-10 cursor-pointer !text-xl hover:text-gray-700 md:hidden bg-white/80 w-8 h-8 flex items-center justify-center rounded-full"
+            >
+              ✕
+            </button>
             <img
               src={`images/${item.label}.jpg`}
               alt={item.label}
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="w-1/2 p-4 flex flex-col h-full">
-            <div className="flex justify-end mb-4">
+          <div className="md:w-1/2 pt-4 px-4 flex flex-col h-full">
+            <div className="hidden md:flex justify-end">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -74,15 +89,15 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailabl
                 ✕
               </button>
             </div>
-            <div className="mb-4">
+            <div className="mt-2">
               <h2 className="text-2xl font-bold mb-2">{item.label}</h2>
               <p className="text-gray-600">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus excepturi, tempora quae maiores cum reprehenderit molestiae voluptatem exercitationem. Dolor sequi ducimus quae impedit pariatur sunt ipsum animi porro voluptatum ullam?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit...
               </p>
             </div>
             
             {item.modifierGroups.length > 0 && (
-              <div className="flex-grow overflow-y-auto">
+              <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-3">Customization Options</h3>
                 {item.modifierGroups.map((group) => (
                   <div key={group.id} className="mb-4">
@@ -93,11 +108,11 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailabl
               </div>
             )}
 
-            <div className="mt-auto bg-gray-200 -mx-4 -mb-8 p-8">
-              <div className="flex items-stretch gap-4">
+            <div className="mt-auto sticky bottom-0 bg-gray-200 -mx-4 p-4">
+              <div className="flex flex-col md:flex-row items-stretch gap-4">
                 {isAvailable ? (
                   <>
-                    <div className="flex items-center bg-white w-1/3 min-h-[48px] border-1">
+                    <div className="flex items-center bg-white w-full md:w-1/3 h-12 md:min-h-[48px] border-1">
                       <button 
                         disabled={item?.isSoldOut}
                         onClick={handleDecrement} 
@@ -114,19 +129,19 @@ const MenuItemModal: React.FC<MenuItemModalProps> = ({ item, onClose, isAvailabl
                       type="primary"
                       size="large"
                       disabled={item?.isSoldOut}
-                      className="flex-1 !rounded-none min-h-[48px] flex items-center justify-center gap-2"
+                      className="w-full h-12 md:flex-1 !rounded-none md:min-h-[48px] flex items-center justify-center gap-2"
                     >
                       <span>Add</span>
                       <span className="text-white/80">(${item.price.toFixed(2)})</span>
                     </Button>
                   </>
                 ) : (
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
                     <span className="text-lg font-bold">${item.price.toFixed(2)}</span>
                     <Button
                       type="primary"
                       size="large"
-                      className="!rounded-none min-h-[48px]"
+                      className="w-full md:w-auto !rounded-none h-12 md:min-h-[48px]"
                     >
                       Not Available
                     </Button>
