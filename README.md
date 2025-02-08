@@ -44,12 +44,13 @@ cd rails_grain_graphql
 
 # Install dependencies
 bundle install
+gem install foreman
 
 # Setup database
 bin/rails db:create db:migrate db:seed
 
-# Start the server
-bin/rails server
+# Start the server and frontend together
+foreman start -f Procfile.dev
 ```
 
 ### Docker Setup
